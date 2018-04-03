@@ -59,7 +59,7 @@ class App extends Component {
     if(this.state.usdValue && this.state.usd){
     this.setState({usdResult:  +this.state.usdValue * (+this.state.usd)})
     } else {
-      alert("Enter USD")
+      alert("Enter valid USD")
     }
   }
 
