@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Navbar, Jumbotron, Button } from 'react-bootstrap';
+import {Grid, Row, Col, Table, thead, th, tbody, tr, td,  } from 'react-bootstrap';
 import { parseString } from 'xml2js'
 
 class App extends Component {
@@ -48,7 +50,7 @@ class App extends Component {
     if(this.state.rubValue && this.state.rub){
       this.setState({rubResult:  +this.state.rubValue * (+this.state.rub)})
     } else {
-      alert('Enter RUB')
+      alert('Enter valid RUB')
     }
   }
 
@@ -74,24 +76,47 @@ class App extends Component {
   render() {
     return (
       <div className="App"> 
-       <div className="ConvContainer" style={{marginTop:"20px", border:"1px solid black", paddingTop:"20px", paddingBottom:"20px"}}>
-          <div id="rubConverter" className="Converter">
-            <input type="number" id="rubSource" placeholder="  rub" onChange={(e) => this.onRubInputChange(e.target.value)}/>
-            <span> RUB </span>
-            <span> ---> </span>
-            <input type="number" className="kztTarget" disabled value={this.state.rubResult}/>
-            <span> KZT </span>
-            <button style={{marginLeft:"10px"}} onClick={(e) => this.calculateRub()}> Convert </button>
-          </div>
-          <br/>
-          <div id="usdConverter" className="Converter">
-            <input type="number" id="usdSource" placeholder="  usd" onChange={(e) => this.onUsdInputChange(e.target.value)}/>
-            <span> USD </span>
-            <span> ---> </span>
-            <input type="number" className="kztTarget" disabled value={this.state.usdResult}/>
-            <span> KZT </span>
-            <button style={{marginLeft:"10px"}} onClick={(e) => this.calculateUsd()}> Convert </button>
-          </div>
+        
+        <div className="ConvContainer" style={{marginTop:"20px", border:"1px solid black", paddingTop:"20px", paddingBottom:"20px"}}>
+          <Grid>
+            <Row className="show-grid" id="rubConverter" className="Converter">
+              <Col xs={4} >
+                <input type="number" id="rubSource" placeholder="  rub" onChange={(e) => this.onRubInputChange(e.target.value)}/>
+                <span class="glyphicon glyphicon-rub"/>
+              </Col>  
+              <Col xs={1} >
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"/>
+              </Col>
+              <Col xs={4} >  
+                <input  type="number" className="kztTarget" disabled value={this.state.rubResult}/>
+                <span> KZT </span>
+              </Col>
+              <Col xs={3} >  
+                <button type="button" class="btn btn-success" style={{marginLeft:"10px"}} onClick={(e) => this.calculateRub()}> Convert </button>
+              </Col>
+            </Row>
+            
+            <br/>
+            
+            <Row className="show-grid" id="usdConverter" className="Converter">
+              <Col xs={4} >
+                <input type="number" id="usdSource" placeholder="  usd" onChange={(e) => this.onUsdInputChange(e.target.value)}/>
+                <span  class="glyphicon glyphicon-usd" aria-hidden="true"/>
+              </Col>
+              <Col xs={1} >  
+                <span> </span>
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"/>
+                <span> </span>
+              </Col>
+              <Col xs={4} >  
+                <input type="number" className="kztTarget" disabled value={this.state.usdResult}/>
+                <span> KZT </span>
+              </Col>
+              <Col xs={3} >  
+                <button type="button" class="btn btn-success" style={{marginLeft:"10px"}} onClick={(e) => this.calculateUsd()}> Convert </button>
+              </Col>
+            </Row>
+          </Grid>
         </div>
         
         <br/>
@@ -99,17 +124,36 @@ class App extends Component {
         <br/>
         
         <div className="ExchangeInfoContainer" style={{border:"1px solid green", paddingTop:"20px", paddingBottom:"20px"}}>
-          {
-            this.state.items && this.state.items.map(item => {
-              return (
-                <div className="ExchangeInfo">
-                  <span> 1 {item.title[0]} </span>
-                  <span> --> </span>
-                  <span> {item.description[0]} kzt </span>
-                </div>
-              )
-            })
-          }              
+          <Grid>
+            <Row>
+              <Col xs={8} xsOffset={2}>
+                <Table striped bordered condensed hover>
+                  <thead>
+                    <tr>
+                      <th style={{textAlign: "center"}}>#</th>
+                      <th style={{textAlign: "center"}}> Source </th>
+                      <th style={{textAlign: "center"}}><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"/></th>
+                      <th style={{textAlign: "center"}}> KZT </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      this.state.items && this.state.items.map((item, index) => {
+                        return (
+                          <tr>
+                            <td> <span>{index + 1}.</span> </td> 
+                            <td> <span> 1 {item.title[0]} </span> </td>
+                            <td> <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"/> </td>
+                            <td> <span> {item.description[0]} kzt </span> </td>
+                          </tr>   
+                        )
+                      })
+                    } 
+                  </tbody>
+                </Table>
+              </Col>
+            </Row>
+          </Grid>                   
         </div>
       </div>
     );
